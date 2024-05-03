@@ -8,7 +8,7 @@ Now you're ready to build your first transaction. As mentioned in the
 slides, you are working with data from the FFEIC, which is the
 organization in the US that sets bank standards and reporting formats.
 Recently they changed the rules for reporting if you provide consumer
-deposit accounts to being true only if you have more than \$5,000,000 in
+deposit accounts to being true only if you have more than \\$5,000,000 in
 brokered deposits.
 
 Let's use a transaction to make that update safely. The "Provides
@@ -19,7 +19,7 @@ deposits is in the `RCON2365` column.
 
 - `BEGIN` the transaction.
 - Update the `RCONP752` field to be `'true'` where `RCON2365` is bigger
-  than \$5,000,000.
+  than \\$5,000,000.
 - Close out the transaction with `COMMIT`.
 - Select the count of rows where `RCONP752` is `'true'`.
 
@@ -103,12 +103,12 @@ in the `RCONB550` field. These types of accounts promote bank stability
 and generate dependable revenue for the financial institution via fees
 and loan proceeds. Let's update `FIELD48` to be `'1'` for each of these
 institutions to signify that they have this stability when it's over
-\$100M.
+\\$100M.
 
 **Instructions**
 
 - Update the flag in `FIELD48` to be `'1'` when `RCONB550` is greater
-  than \$100,000,000.
+  than \\$100,000,000.
 - Count the number of records where `FIELD48` is not `'1'`.
 
 **Answer**
@@ -139,14 +139,14 @@ reads, nonrepeatable reads, and phantom reads. In the FFEIC data,
 `RCON2210` is the demand deposits field, and tracks all outstanding
 checking accounts, bank-issued checks and unposted credits. They can be
 a liability to a bank if there was a funds rush for any reason. Let's
-find all those banks with over \$100,000,000 in demand deposits.
+find all those banks with over \\$100,000,000 in demand deposits.
 
 **Instructions**
 
 - Start a transaction with repeatable read.
-- Select all the records with `RCON2210` over \$100,000,000 in demands
+- Select all the records with `RCON2210` over \\$100,000,000 in demands
   deposits.
-- Select all the records with `RCON2210` still over \$100,000,000 in
+- Select all the records with `RCON2210` still over \\$100,000,000 in
   demands deposits.
 - Commit the transaction.
 
@@ -218,7 +218,7 @@ WHERE RCON0352 > 100000;
 ### Using rollbacks
 
 Recently the FFIEC changed the reporting requirement for bank's that
-provide consumer deposit accounts if they have more than \$5,000,000 in
+provide consumer deposit accounts if they have more than \\$5,000,000 in
 brokered deposits. Let's use a transaction to make that update safely.
 The "Provides Consumer Deposits" flag is in the `RCONP752` column and
 the amount of brokered deposits is in the `RCON2365` column.
@@ -349,18 +349,18 @@ COMMIT;
 ### Rolling back with a savepoint
 
 Building upon the last exercise, it turns out that banks with more than
-\$6 million in MMDAs are twice as likely to sustain during a downturn
-than those with between \$5 and 6 million in that same asset class. Here
+\\$6 million in MMDAs are twice as likely to sustain during a downturn
+than those with between \\$5 and 6 million in that same asset class. Here
 I've made a mistake in the sample code, and we need to rollback to the
 save point to maintain data integrity.
 
 **Instructions**
 
 - Inside a transaction set `FIELD48` to `'MMDA+'` where `RCON6810` (MMDA
-  amount) is greater than \$6 million.
+  amount) is greater than \\$6 million.
 - Set `mmdaplus_flag_set` as a savepoint.
 - Set `FIELD48` to `'MMDA+'` where `RCON6810` (MMDA amount) is greater
-  than \$5 million (this is a mistake).
+  than \\$5 million (this is a mistake).
 - Undo back to `mmdaplus_flag_set`, end the transaction, and count the
   `'MMDA+'` records.
 
@@ -397,20 +397,20 @@ depositor. `RCONHK07 + RCONHK12` stores those maturing in the next three
 months and `RCONHK08 + RCONHK13` stores those expiring between 3 and 12
 months.
 
-If the total amounts in these columns are higher than \$10 million it
+If the total amounts in these columns are higher than \\$10 million it
 can be a drag on available funds to cover withdrawals and would receive
-a negative rating. Additionally, if there is less than \$2 million, it
+a negative rating. Additionally, if there is less than \\$2 million, it
 has been shown to be a positive factor.
 
 **Instructions**
 
 - Within a transaction set `FIELD48` to `mature+` if total maturing
-  deposits is less than \$2 million and set a savepoint
+  deposits is less than \\$2 million and set a savepoint
   `matureplus_flag_set`.
-- Set `FIELD48` to `mature-` if total maturing deposits is between \$2
-  million and \$10 million then set a savepoint `matureminus_flag_set`.
+- Set `FIELD48` to `mature-` if total maturing deposits is between \\$2
+  million and \\$10 million then set a savepoint `matureminus_flag_set`.
 - Set `FIELD48` to `mature--` if total maturing deposits is greater than
-  \$10 million.
+  \\$10 million.
 - Count all the banks with a positive deposit maturity schedule.
 
 **Answer**
@@ -456,23 +456,23 @@ seen during the 2008 market.
 
 `RCONHK12` (\>=250k) stores those maturing in the next three months and
 `RCONHK13` (\>=250k) stores those expiring between 3 and 12 months. If
-these are higher than \$1 million dollars it can cause a funds shortage
+these are higher than \\$1 million dollars it can cause a funds shortage
 at a bank as these are typically larger customers of the bank who might
 also pull other assets. Again, there is a positive factor if these are
-less than \$500K.
+less than \\$500K.
 
 I've made a few mistakes in my code by setting the wrong value for those
-over \$500 thousand!
+over \\$500 thousand!
 
 **Instructions**
 
 - Within a transaction set `FIELD48` to `mature+` if total maturing
-  deposits is less than \$500 thousand and set a savepoint
+  deposits is less than \\$500 thousand and set a savepoint
   `matureplus_flag_set`.
-- Set `FIELD48` to `mature-` if total maturing deposits is between \$500
-  thousand and \$1 million then set a savepoint `matureminus_flag_set`.
+- Set `FIELD48` to `mature-` if total maturing deposits is between \\$500
+  thousand and \\$1 million then set a savepoint `matureminus_flag_set`.
 - Set `FIELD48` to `mature--` if total maturing deposits is greater than
-  \$100 thousand (not \$1 million) - "accidentally" omitting a `0`.
+  \\$100 thousand (not \\$1 million) - "accidentally" omitting a `0`.
 - Undo back to just after we set the `mature-` records and count all the
   banks with a `mature--` deposit maturity schedule.
 
@@ -562,16 +562,16 @@ statement(s).
 
 Recently, the FFEIC allowed for a progressive curtailment of foreign
 deposits, field `RCON2203` in thousands, in the dataset. The new
-curtailment is 35% for more than \$1 billion, 25% for more than \$500
-million, and 13% for more than \$300 million. It's possible to order
+curtailment is 35% for more than \\$1 billion, 25% for more than \\$500
+million, and 13% for more than \\$300 million. It's possible to order
 these statements to avoid reducing the data more than once. However,
 statements have the data before any adjustments with `REPEATABLE READ`.
 
 **Instructions**
 
 - Start a `REPEATABLE READ` transaction.
-- Reduce `RCON2203` by 35% if more than \$1 billion, by 25% if more than
-  \$500 million, or by 13% if more than \$300 million with a `SAVEPOINT`
+- Reduce `RCON2203` by 35% if more than \\$1 billion, by 25% if more than
+  \\$500 million, or by 13% if more than \\$300 million with a `SAVEPOINT`
   after each.
 - Close the transaction.
 - Total the `RCON2203` field.
