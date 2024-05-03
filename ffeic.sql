@@ -67,4 +67,4 @@ CREATE TABLE IF NOT EXISTS ffiec_reci(
   ,FIELD48  VARCHAR(30)
 );
 
-\copy match FROM '/tmp/ffiec_records.txt' (DELIMITER E'\t', FORMAT CSV,  HEADER);
+\copy ffiec_reci FROM '/tmp/ffiec_records.txt' (DELIMITER E'\t', FORMAT CSV,  HEADER);
