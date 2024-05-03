@@ -67,5 +67,4 @@ CREATE TABLE IF NOT EXISTS ffiec_reci(
   ,FIELD48  VARCHAR(30)
 );
 
-COPY ffiec_reci
-FROM PROGRAM 'curl "https://assets.datacamp.com/production/repositories/5509/datasets/dcf59b35c5f7f8288ed3cc71a0ae9958436b7adb/ffiec_records.txt"' (DELIMITER E'\t', FORMAT CSV,  HEADER);
+\copy match FROM '/tmp/ffiec_records.txt' (DELIMITER E'\t', FORMAT CSV,  HEADER);
