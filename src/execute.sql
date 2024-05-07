@@ -99,7 +99,6 @@ WHERE RCON2365 > 5000;
 -- Oops that was supposed to be 5000000 undo the statement
 ROLLBACK;
 
-
 -- Update RCOP752 to true if RCON2365 is over 5000000
 UPDATE ffiec_reci
 SET RCONP752 = 'true'
@@ -112,6 +111,7 @@ COMMIT;
 SELECT COUNT(RCONP752)
 FROM ffiec_reci
 WHERE RCONP752 = 'true';
+
 
 
 -- Begin a new transaction
@@ -160,13 +160,13 @@ COMMIT;
 
 BEGIN;
 
--- Update FIELD48 to indicate a positive MMDA when more than $6 million.
+-- Update FIELD48 to indicate a positive MMDA when more than 6 million.
 UPDATE ffiec_reci SET FIELD48 = 'MMDA+' WHERE RCON6810 > 6000000;
 
 -- Set a savepoint
 SAVEPOINT mmdaplus_flag_set;
 
--- Mistakenly set the flag to MMDA+ where the value is greater than $5 million
+-- Mistakenly set the flag to MMDA+ where the value is greater than 5 million
 UPDATE ffiec_reci set FIELD48 = 'MMDA+' where RCON6810 > 5000000;
 
 -- Roll back to savepoint
@@ -177,10 +177,9 @@ COMMIT;
 -- Select count of records where the flag is MMDA+
 SELECT count(FIELD48) from ffiec_reci where FIELD48 = 'MMDA+';
 
-
 BEGIN;
 
--- Update FIELD48 to indicate a positive maturity rating when less than $2 million of maturing deposits.
+-- Update FIELD48 to indicate a positive maturity rating when less than 2 million of maturing deposits.
 UPDATE ffiec_reci 
 SET FIELD48 = 'mature+' 
 WHERE RCONHK07 + RCONHK12 + RCONHK08 + RCONHK13 < 2000000;
@@ -188,7 +187,7 @@ WHERE RCONHK07 + RCONHK12 + RCONHK08 + RCONHK13 < 2000000;
 -- Set a savepoint
 SAVEPOINT matureplus_flag_set;
 
--- Update FIELD48 to indicate a negative maturity rating when between $2 and $10 million
+-- Update FIELD48 to indicate a negative maturity rating when between 2 and 10 million
 UPDATE ffiec_reci 
 SET FIELD48 = 'mature-' 
 WHERE RCONHK07 + RCONHK12 + RCONHK08 + RCONHK13 BETWEEN 2000000 AND 10000000;
@@ -196,7 +195,7 @@ WHERE RCONHK07 + RCONHK12 + RCONHK08 + RCONHK13 BETWEEN 2000000 AND 10000000;
 -- Set a savepoint
 SAVEPOINT matureminus_flag_set;
 
--- Update FIELD48 to indicate a double negative maturity rating when more than $10 million
+-- Update FIELD48 to indicate a double negative maturity rating when more than 10 million
 UPDATE ffiec_reci 
 SET FIELD48 = 'mature--' 
 WHERE RCONHK07 + RCONHK12 + RCONHK08 + RCONHK13 > 10000000;
@@ -211,7 +210,7 @@ WHERE FIELD48 = 'mature+';
 
 BEGIN;
 
--- Update FIELD48 to indicate a positive maturity rathing when less than $500 thousand.
+-- Update FIELD48 to indicate a positive maturity rathing when less than 500 thousand.
 UPDATE ffiec_reci 
 SET FIELD48 = 'mature+' 
 WHERE RCONHK12 + RCONHK13 < 500000;
@@ -219,7 +218,7 @@ WHERE RCONHK12 + RCONHK13 < 500000;
 -- Set a savepoint
 SAVEPOINT matureplus_flag_set;
 
--- Update FIELD48 to indicate a negative maturity rathing when between $500 thousand and $1 million.
+-- Update FIELD48 to indicate a negative maturity rathing when between 500 thousand and 1 million.
 UPDATE ffiec_reci 
 SET FIELD48 = 'mature-' 
 WHERE RCONHK12 + RCONHK13 BETWEEN 500000 AND 1000000;
@@ -239,6 +238,7 @@ ROLLBACK TO matureminus_flag_set;
 SELECT count(FIELD48) 
 from ffiec_reci 
 WHERE FIELD48 = 'mature--';
+
 
 
 -- Create a new transaction with a repeatable read isolation level
@@ -490,3 +490,4 @@ RETURNS BOOLEAN AS $$
     END;
 $$ LANGUAGE plpgsql;
 SELECT debug_statement('INSERT INTO patients (a1c, glucose, fasting) values (20, 89, TRUE);')
+

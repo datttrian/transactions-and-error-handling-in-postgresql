@@ -1,5 +1,8 @@
 # Transactions and Error Handling in PostgreSQL
 
+[![Open in Google Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/datttrian/transactions-and-error-handling-in-postgresql/blob/main/src/notebook.ipynb)
+
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/datttrian/transactions-and-error-handling-in-postgresql)
 
 ![Clear as Data](http://drive.google.com/uc?export=view&id=1PJVtMhPE_h3g2c9wXm9tf6_pIhvMyDRI)
